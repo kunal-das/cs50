@@ -25,7 +25,7 @@
 #define ROWS 5
 
 // number of columns of bricks
-#define COLS 10
+#define COLS 11
 
 // radius of ball in pixels
 #define RADIUS 15
@@ -79,40 +79,59 @@ int main(void)
     {
         move(ball, xVelocity, yVelocity);
 
+        //checks if the ball hits the right edge of the window
         if((getX(ball)+getWidth(ball))>= WIDTH)
         {
             xVelocity = -(xVelocity);
         }
+        //checks if the ball hits the left edge of the window
         else if(getX(ball) <= 0)
         {
             xVelocity = -(xVelocity);
         }
 
+        //checks if the ball hits the bottom edge of the window
         if((getY(ball) + getWidth(ball)) >=HEIGHT)
         {
-            yVelocity = -(yVelocity);
+            lives = lives - 1;
+            removeGWindow(window, ball);
+            freeGObject(ball);
+            ball = initBall(window);
+            continue;
         }
+        //checks if the ball hits the top edge of the window
         else if(getY(ball) <= 0)
         {
             yVelocity = -yVelocity;
         }
 
-        GObject collision = detectCollision(window, ball);
-        if(collision == paddle)
-        {
-            yVelocity = - yVelocity;
-        }
-        else if(strcmp(getType(collision), "GRect") == 0)
-        {
-            remove(window, collision);
-            //freeGObject(collision);
-        }
-
         pause(10);
 
-        GEvent event = getNextEvent(MOUSE_EVENT);
-        if((event != NULL)&&(getEventType(event)==MOUSE_MOVED))
+
+        if (detectCollision(window, ball) != NULL)
         {
+           GObject  collision = detectCollision(window, ball);
+
+            if(collision == paddle)
+            {
+                yVelocity = - yVelocity;
+            }
+            else if(strcmp(getType(collision), "GRect") == 0)
+            {
+                //printf("collision with brick detected");
+                removeGWindow(window, collision);
+                yVelocity = - yVelocity;
+                yVelocity = yVelocity + 0.05;
+                xVelocity = xVelocity + 0.05;
+                freeGObject(collision);
+            }
+        }
+
+        GEvent event = getNextEvent(MOUSE_EVENT);
+        if(event != NULL)
+        {
+           if(getEventType(event)==MOUSE_MOVED)
+            {
                 double X = getX(event);
                 //move the center of the paddle in the X-Axis along
                 //mouse movements and within the width of the window
@@ -122,7 +141,7 @@ int main(void)
                     setLocation(paddle, (X-50), 370);
                 }
 
-
+             }
         }
 
 
