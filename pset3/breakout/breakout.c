@@ -18,8 +18,8 @@
 #include <spl/gwindow.h>
 
 // height and width of game's window in pixels
-#define HEIGHT 600
-#define WIDTH 400
+#define HEIGHT 400
+#define WIDTH 600
 
 // number of rows of bricks
 #define ROWS 5
@@ -28,7 +28,7 @@
 #define COLS 10
 
 // radius of ball in pixels
-#define RADIUS 10
+#define RADIUS 15
 
 // lives
 #define LIVES 3
@@ -70,10 +70,62 @@ int main(void)
     // number of points initially
     int points = 0;
 
+    //velocity of the ball initially
+    double xVelocity = 2.0;
+    double yVelocity = 2.0;
+
     // keep playing until game over
     while (lives > 0 && bricks > 0)
     {
-        // TODO
+        move(ball, xVelocity, yVelocity);
+
+        if((getX(ball)+getWidth(ball))>= WIDTH)
+        {
+            xVelocity = -(xVelocity);
+        }
+        else if(getX(ball) <= 0)
+        {
+            xVelocity = -(xVelocity);
+        }
+
+        if((getY(ball) + getWidth(ball)) >=HEIGHT)
+        {
+            yVelocity = -(yVelocity);
+        }
+        else if(getY(ball) <= 0)
+        {
+            yVelocity = -yVelocity;
+        }
+
+        GObject collision = detectCollision(window, ball);
+        if(collision == paddle)
+        {
+            yVelocity = - yVelocity;
+        }
+        else if(strcmp(getType(collision), "GRect") == 0)
+        {
+            remove(window, collision);
+            //freeGObject(collision);
+        }
+
+        pause(10);
+
+        GEvent event = getNextEvent(MOUSE_EVENT);
+        if((event != NULL)&&(getEventType(event)==MOUSE_MOVED))
+        {
+                double X = getX(event);
+                //move the center of the paddle in the X-Axis along
+                //mouse movements and within the width of the window
+
+                if(((X-50) >=0) && ((X+50) < 601 ))
+                {
+                    setLocation(paddle, (X-50), 370);
+                }
+
+
+        }
+
+
     }
 
     // wait for click before exiting
@@ -89,7 +141,27 @@ int main(void)
  */
 void initBricks(GWindow window)
 {
-    // TODO
+   int brickWidth = 50;
+   int brickHeight = 10;
+   GRect brick;
+   int brickX = 0;
+   int brickY = 30;
+
+   for(int i = 0; i < 5; i++)
+   {
+
+       for(int j = 0; j < 11; j++)
+       {
+          string colors[] = {"RED", "GREEN", "BLUE", "CYAN", "ORANGE"};
+          brick = newGRect(brickX, brickY, brickWidth, brickHeight);
+          setColor(brick, colors[i]);
+          setFilled(brick, true);
+          add(window, brick);
+          brickX = brickX + 55;
+       }
+       brickY = brickY + 15;
+       brickX = 0;
+   }
 }
 
 /**
@@ -97,8 +169,12 @@ void initBricks(GWindow window)
  */
 GOval initBall(GWindow window)
 {
-    // TODO
-    return NULL;
+
+    GOval ball = newGOval((WIDTH-RADIUS)/2, (HEIGHT-RADIUS)/2, RADIUS, RADIUS);
+    setColor(ball, "BLACK");
+    setFilled(ball, true);
+    add(window, ball);
+    return ball;
 }
 
 /**
@@ -106,9 +182,16 @@ GOval initBall(GWindow window)
  */
 GRect initPaddle(GWindow window)
 {
-    // TODO
-    return NULL;
+    int paddleWidth = 100;
+    int paddleHeight = 10;
+    GRect paddle = newGRect((WIDTH-paddleWidth)/2, 370, paddleWidth, paddleHeight);
+    setColor(paddle, "BLACK");
+    setFilled(paddle, true);
+    add(window, paddle);
+    return paddle;
 }
+
+
 
 /**
  * Instantiates, configures, and returns label for scoreboard.
