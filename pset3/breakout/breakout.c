@@ -69,15 +69,17 @@ int main(void)
 
     // number of points initially
     int points = 0;
-
+    
     //velocity of the ball initially
     double xVelocity = 2.0;
     double yVelocity = 2.0;
 
+    
     // keep playing until game over
     while (lives > 0 && bricks > 0)
     {
-        move(ball, xVelocity, yVelocity);
+        
+        move(ball, xVelocity, yVelocity);    
 
         //checks if the ball hits the right edge of the window
         if((getX(ball)+getWidth(ball))>= WIDTH)
@@ -91,13 +93,22 @@ int main(void)
         }
 
         //checks if the ball hits the bottom edge of the window
-        if((getY(ball) + getWidth(ball)) >=HEIGHT)
+        if((getY(ball) + getHeight(ball)) >=HEIGHT)
         {
             lives = lives - 1;
             removeGWindow(window, ball);
-            freeGObject(ball);
-            ball = initBall(window);
-            continue;
+            freeGObject(ball);            
+            GEvent mouseclick = getNextEvent(MOUSE_EVENT);
+            if(mouseclick != NULL)
+            {
+                if(getEventType(mouseclick) == MOUSE_CLICKED)
+                {
+                    ball = initBall(window);
+                    xVelocity = - xVelocity;
+                    continue;     
+                }
+            }
+            
         }
         //checks if the ball hits the top edge of the window
         else if(getY(ball) <= 0)
@@ -107,15 +118,17 @@ int main(void)
 
         pause(10);
 
-
+        
         if (detectCollision(window, ball) != NULL)
         {
            GObject  collision = detectCollision(window, ball);
-
+        
+            // checks if the ball collides with the paddle
             if(collision == paddle)
             {
                 yVelocity = - yVelocity;
             }
+            //check if the ball collided with a brick
             else if(strcmp(getType(collision), "GRect") == 0)
             {
                 //printf("collision with brick detected");
@@ -124,6 +137,9 @@ int main(void)
                 yVelocity = yVelocity + 0.05;
                 xVelocity = xVelocity + 0.05;
                 freeGObject(collision);
+                points = points + 1;
+                updateScoreboard(window, label, points);
+
             }
         }
 
@@ -131,17 +147,17 @@ int main(void)
         if(event != NULL)
         {
            if(getEventType(event)==MOUSE_MOVED)
-            {
+            {            
                 double X = getX(event);
-                //move the center of the paddle in the X-Axis along
+                //move the center of the paddle in the X-Axis along 
                 //mouse movements and within the width of the window
 
                 if(((X-50) >=0) && ((X+50) < 601 ))
                 {
                     setLocation(paddle, (X-50), 370);
                 }
-
-             }
+             
+             } 
         }
 
 
@@ -168,7 +184,7 @@ void initBricks(GWindow window)
 
    for(int i = 0; i < 5; i++)
    {
-
+       
        for(int j = 0; j < 11; j++)
        {
           string colors[] = {"RED", "GREEN", "BLUE", "CYAN", "ORANGE"};
@@ -188,7 +204,7 @@ void initBricks(GWindow window)
  */
 GOval initBall(GWindow window)
 {
-
+    
     GOval ball = newGOval((WIDTH-RADIUS)/2, (HEIGHT-RADIUS)/2, RADIUS, RADIUS);
     setColor(ball, "BLACK");
     setFilled(ball, true);
@@ -217,8 +233,15 @@ GRect initPaddle(GWindow window)
  */
 GLabel initScoreboard(GWindow window)
 {
-    // TODO
-    return NULL;
+    double x, y;
+    GLabel label = newGLabel("0");
+    setFont(label, "SansSerif-36");
+    x = (WIDTH - getWidth(label))/2;
+    y = (HEIGHT - getHeight(label))/2;
+    setLocation(label, x, y);
+    add(window, label);
+    
+    return label;
 }
 
 /**
