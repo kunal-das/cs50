@@ -77,8 +77,7 @@ int main(void)
     
     // keep playing until game over
     while (lives > 0 && bricks > 0)
-    {
-        
+    {        
         move(ball, xVelocity, yVelocity);    
 
         //checks if the ball hits the right edge of the window
@@ -98,17 +97,10 @@ int main(void)
             lives = lives - 1;
             removeGWindow(window, ball);
             freeGObject(ball);            
-            GEvent mouseclick = getNextEvent(MOUSE_EVENT);
-            if(mouseclick != NULL)
-            {
-                if(getEventType(mouseclick) == MOUSE_CLICKED)
-                {
-                    ball = initBall(window);
-                    xVelocity = - xVelocity;
-                    continue;     
-                }
-            }
-            
+            waitForClick();
+            ball = initBall(window);
+            xVelocity = -xVelocity;
+            continue;      
         }
         //checks if the ball hits the top edge of the window
         else if(getY(ball) <= 0)
