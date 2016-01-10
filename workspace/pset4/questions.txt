@@ -1,0 +1,29 @@
+0.  JPEG(Joint Photographic Expert Groups) - almost 16 million
+	GIF(Graphics Interchange Format) - lossless pallette based - 8 bits per pixel - 256 colors
+	PNG(Portable Network Graphics) - used in mac and better than GIF in terms of compression - almost same as JPEG i.e. 16 million
+	BMP(Bitmap Image Format) - true representation of an image - 24 bit per pixel - 2^24 colors
+
+1.	Among all of them GIF supports animation.
+  
+2.	Lossy compression - compressing the size of the image by compensation on its quality so that minute details gets degraded but the overall quality of
+						the picture is not that affected and the size of the file is reduced to a great extent. Eg : JPEG.
+	Lossless compression - compressing the size of the image without compromizing the quality is called lossless compression. However the levels of compression
+							in the size of the image is not that much. Eg : GIF, PNG.
+3.  GIF, PNG
+4.  When a file is deleted from a FAT system then the file's directory entry is removed from the allocation table such that we cannot know in which clusters
+    the file is stored in the memory even though the file is present in pieces in the memory.
+5.  If you want to delete the file so that it is unrecoverable then one should remove the pieces of the file stored in the memory as well as delete it's
+    entry from the FAT table.
+6.  
+7.  TODO
+8.  TODO
+9.  TODO
+10. TODO
+11. TODO
+12. TODO
+13. TODO
+14. TODO
+15. TODO
+16. TODO
+17. TODO
+18. TODO
