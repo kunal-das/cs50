@@ -14,7 +14,7 @@
     the file is stored in the memory even though the file is present in pieces in the memory.
 5.  If you want to delete the file so that it is unrecoverable then one should remove the pieces of the file stored in the memory as well as delete it's
     entry from the FAT table.
-6.  
+6					 
 7.  TODO
 8.  TODO
 9.  TODO
