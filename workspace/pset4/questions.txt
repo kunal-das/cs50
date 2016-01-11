@@ -14,16 +14,22 @@
     the file is stored in the memory even though the file is present in pieces in the memory.
 5.  If you want to delete the file so that it is unrecoverable then one should remove the pieces of the file stored in the memory as well as delete it's
     entry from the FAT table.
-6					 
-7.  TODO
-8.  TODO
-9.  TODO
-10. TODO
-11. TODO
-12. TODO
-13. TODO
-14. TODO
+6	stdint.h defines the standard input types alongwith their different widths in terms of bits.				 
+7.  uint8_t, uint16_t, uint32_t and int32_t are used to specify the particular types of int data types with pre-defined bit widths independent of the
+	underlying architecture.
+8.  BYTE - 1 byte
+	WORD - 2 byte
+	LONG - 4 byte
+	DWORD - 4 byte
+9.  The magic number for .bmp files is 42 4D.
+10. bfSize - bfsize is the size of the .bmp file which includes the size of the BITMAPFILEHEADER and BITMAPINFOHEADER and the size of the pixels array 
+	biSize - this specifies the size of BITMAPINFOHEADER struct.	
+11. biHeight is -ve means that the image is top to bottom.
+12. biBitCount is used to indicate the number of bits in each pixel which gives the color depth of BMP file.
+13. when fopen() is unable to open the specified file in the specified mode then in that case it returns NULL since it's return type is FILE*.
+14. the third argument in fread in copy.c is always 1 because we want to read only 1 unit of size 3 byte from infile and check if it is red noise or not.
 15. TODO
 16. TODO
 17. TODO
 18. TODO
+	
