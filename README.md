@@ -1,4 +1,4 @@
-# cs50
+# CS50
 
 Hi I am Kunal and this is my repository of all the psets that I am doing in cs50.
 
