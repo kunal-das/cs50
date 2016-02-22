@@ -9,6 +9,8 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include <cs50.h>
+#include <ctype.h>
 
 #include "dictionary.h"
 
@@ -48,6 +50,22 @@ bool load(const char* dictionary)
                    //create a new node and make the child point to the new node.
                    //make the current head point to the new node.
                    //branch = NULL;
+               }
+            }
+            else if(isalpha(word[i]))
+            {
+                int ch = 'a' - word[i];
+                if(!checkNULL(current_head->children[ch]))
+                {
+                    current_head = current_head->children[ch];
+                }
+                else
+                {
+                    //create a new node and make the child point to the new node.
+                    //make the current head point to the new node.
+                    //branch = NULL
+                }
+            }
     return false;
 }
 
