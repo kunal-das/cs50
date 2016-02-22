@@ -8,6 +8,7 @@
  */
 
 #include <stdbool.h>
+#include <string.h>
 
 #include "dictionary.h"
 
@@ -25,7 +26,28 @@ bool check(const char* word)
  */
 bool load(const char* dictionary)
 {
-    // TODO
+    node root = malloc(sizeof(node));
+    node current_head = root;
+    char* dictionaryPath = dictionary;
+    char *word = malloc(sizeof(char)*45);
+    FILE *dictionary = fopen(dictionaryPath, "r");
+    while(fgets(word, (LENGTH +1), dictionary) != NULL)
+    {
+        //building the TRIE branch for each word
+        for(int i = 0; i < (strlen(word)/sizeof(char)); i++)
+        {
+            if(word[i] == '\'')
+            {
+               //check if children[27] is NULL
+               if(!checkNull(current_head->children[27]))
+               {
+                   // shift the current head to pointing to the child node.
+               }
+               else
+               {
+                   //create a new node and make the child point to the new node.
+                   //make the current head point to the new node.
+                   //branch = NULL;
     return false;
 }
 
