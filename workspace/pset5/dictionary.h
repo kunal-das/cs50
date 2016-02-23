@@ -12,6 +12,13 @@
 
 #include <stdbool.h>
 
+//defining the struct to build the TRIE data structure.
+typedef struct node
+{
+    bool is_word;
+    struct node *children[27];
+}node;
+
 // maximum length for a word
 // (e.g., pneumonoultramicroscopicsilicovolcanoconiosis)
 #define LENGTH 45
@@ -37,3 +44,4 @@ unsigned int size(void);
 bool unload(void);
 
 #endif // DICTIONARY_H
+
