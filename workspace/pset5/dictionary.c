@@ -31,16 +31,18 @@ bool check(const char* word)
  */
 bool load(const char* dictionary)
 {
+    //check if dictionary passed is NULL or not.
     if(dictionary == NULL)
     {
         return false;
     }
+    
     node root = malloc(sizeof(node));
     node current_head = root;
     char* dictionaryPath = dictionary;
     char *word = malloc(sizeof(char)*45);
     FILE *dictionary = fopen(dictionaryPath, "r");
-    int wordcount = 0;
+    //int wordcount = 0;
     while(fgets(word, (LENGTH +1), dictionary) != NULL)
     {
         //Iterate through each character of the word and build the TRIE branch for each word
@@ -91,6 +93,7 @@ bool load(const char* dictionary)
         //Now we mark the is_bool of the last node of the word as true.
         current_head->is_word = true;
         wordcount++;
+        current_head = root;
     }//while loop ends
     
     return true; 
