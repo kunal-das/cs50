@@ -11,7 +11,7 @@
 #include <string.h>
 #include <cs50.h>
 #include <ctype.h>
-
+#include <stdio.h>
 #include "dictionary.h"
 
 int wordcount = 0;
@@ -35,32 +35,31 @@ bool load(const char* dictionary)
         return false;
     }
     
-    node root = malloc(sizeof(node));
-    node current_head = root;
-    char* dictionaryPath = dictionary;
+    node *root = malloc(sizeof(node));
+    node *current_head = root;
     char *word = malloc(sizeof(char)*45);
-    FILE *dictionary = fopen(dictionaryPath, "r");
+    FILE *dictionaryFile = fopen(dictionary, "r");
     //int wordcount = 0;
-    while(fgets(word, (LENGTH +1), dictionary) != NULL)
+    while(fgets(word, (LENGTH +1), dictionaryFile) != NULL)
     {
         //Iterate through each character of the word and build the TRIE branch for each word
         for(int i = 0; i < (strlen(word)/sizeof(char)); i++)
         {
-            node branch;
+            node *branch;
             //check if the character retrieved from the word is an apostrophe.
             if(word[i] == '\'')
             {
                //check if children[27] is NULL or not.
-               if(!checkNull(current_head->children[27]))
+               if(current_head->children[26] != NULL)
                {
                    // shift the current head to pointing to the child node.
-                   current_head = current_head->children[27];
+                   current_head = current_head->children[26];
                }
                else
                {
                    //create a new node and make the child point to the new node.
                    branch = malloc(sizeof(node));
-                   current_head->children[27] = branch;
+                   current_head->children[26] = branch;
                    //make the current head point to the new node.
                    current_head = branch;
                    //branch = NULL;
@@ -71,7 +70,7 @@ bool load(const char* dictionary)
             else if(isalpha(word[i]))
             {
                 int ch = 'a' - word[i];
-                if(!checkNULL(current_head->children[ch]))
+                if(current_head->children[ch] != NULL)
                 {
                     current_head = current_head->children[ch];
                 }
