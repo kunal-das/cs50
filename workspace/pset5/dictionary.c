@@ -14,9 +14,7 @@
 
 #include "dictionary.h"
 
-//Function definition to capture the total number of words that are loaded in the dictionary.
-int wordCount(int);
-
+int wordcount = 0;
 /**
  * Returns true if word is in dictionary else false.
  */
@@ -104,8 +102,7 @@ bool load(const char* dictionary)
  */
 unsigned int size(void)
 {
-    // TODO
-    return 0;
+    return wordcount;
 }
 
 /**
@@ -115,10 +112,4 @@ bool unload(void)
 {
     // TODO
     return false;
-}
-
-//Implementing the wordCount function.
-int wordCount(int wordcount)
-{
-    return wordcount;
 }
