@@ -15,7 +15,7 @@
 #include "dictionary.h"
 
 int wordcount = 0;
-node *root;
+node *root = NULL;
 /**
  * Returns true if word is in dictionary else false.
  */
@@ -91,7 +91,7 @@ bool load(const char* dictionary)
     while(fgets(word, (LENGTH +1), dictionaryFile) != NULL)
     {
         //Iterate through each character of the word and build the TRIE branch for each word
-        for(int i = 0; i < (strlen(word)/sizeof(char)); i++)
+        for(int i = 0; word[i] != '\n'; i++)
         {
             node *branch;
             //check if the character retrieved from the word is an apostrophe.

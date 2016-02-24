@@ -1,4 +1,1 @@
 catch
-dog
-cat
-do

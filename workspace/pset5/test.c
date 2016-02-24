@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <cs50.h>
 #include <string.h>
+#include "dictionary.h"
 
 #define LENGTH 45
 int main(int argc, string argv[])
@@ -22,5 +23,6 @@ int main(int argc, string argv[])
     {
        printf("%s%lu\n", word, (strlen(word)/sizeof(char))); 
     }
+    printf("Size of node struct is : %lu\n", sizeof(node));
     return 0;
 }
