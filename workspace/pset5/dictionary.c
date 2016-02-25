@@ -117,7 +117,7 @@ bool load(const char* dictionary)
             //check if the element retrieved for the word is a character.
             else if(isalpha(word[i]))
             {
-                int ch = 'a' - word[i];
+                int ch = word[i] - 'a';
                 if(current_head->children[ch] != NULL)
                 {
                     current_head = current_head->children[ch];
