@@ -5,24 +5,28 @@
 #include "dictionary.h"
 
 #define LENGTH 45
-int main(int argc, string argv[])
+
+int wordcount = 0;
+
+void incrementcount();
+int printcount();
+
+int main(void)
 {
-    if(argc !=2)
+    incrementcount();
+    int c = printcount();
+    printf("wordcount : %i\n", c);
+}
+
+void incrementcount()
+{
+    for(int i = 0; i < 10; i++)
     {
-        return 1;
+        wordcount++;
     }
-    
-    char *dictionaryPath = argv[1];
-    char *word = malloc(sizeof(char)*45);
-    FILE *dictionary = fopen(dictionaryPath, "r");
-    //fgets(word, (LENGTH+1), dictionary);
-    printf("%s\n", dictionaryPath);
-    //char c = '\n';
-    //printf("%i\n", c);
-    while(fgets(word,(LENGTH+1), dictionary) != NULL)
-    {
-       printf("%s%lu\n", word, (strlen(word)/sizeof(char))); 
-    }
-    printf("Size of node struct is : %lu\n", sizeof(node));
-    return 0;
+}
+
+int printcount()
+{
+    return wordcount;
 }

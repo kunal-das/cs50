@@ -15,7 +15,15 @@
 #include "dictionary.h"
 
 int wordcount = 0;
+
 node *root = NULL;
+
+/**
+ * Function to free the nodes created in the TRIE.
+ */
+void freeNode(node *);
+
+
 /**
  * Returns true if word is in dictionary else false.
  */
@@ -137,9 +145,9 @@ bool load(const char* dictionary)
         //Out of the for loop, meaning that we have created the node of the last character.
         //Now we mark the is_bool of the last node of the word as true.
         current_head->is_word = true;
-        wordcount++;
+        wordcount = wordcount + 1;
         current_head = root;
-    }//while loop ends
+    }//while loop end
     
     return true; 
 }
@@ -157,6 +165,20 @@ unsigned int size(void)
  */
 bool unload(void)
 {
-    // TODO
-    return false;
+    node *current_head = root;
+    freeNode(current_head);
+    return true;
+}
+
+//Implementing the freeNode function.
+void freeNode(node *temp)
+{
+    for(int i = 0; i < 27; i++)
+    {
+        if(temp->children[i] != NULL)
+        {
+            freeNode(temp->children[i]);
+        }
+    }
+    free(temp);
 }
