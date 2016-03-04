@@ -57,7 +57,7 @@ bool check(const char* word)
                 ch = tolower(ch);
             }
             //determined the index of the child according to the alphabet.
-            ch = 'a' - ch;
+            ch = ch - 'a';
             
             if(current_head->children[ch] == NULL)
             {
@@ -86,6 +86,7 @@ bool check(const char* word)
  */
 bool load(const char* dictionary)
 {
+    
     //check if dictionary passed is NULL or not.
     if(dictionary == NULL)
     {
@@ -93,11 +94,16 @@ bool load(const char* dictionary)
     }
     root = malloc(sizeof(node));
     node *current_head = root;
-    char *word = malloc(sizeof(char)*45);
+    char word[46];
+    //char *word = malloc(sizeof(char)*45);
     FILE *dictionaryFile = fopen(dictionary, "r");
     //int wordcount = 0;
-    while(fgets(word, (LENGTH +1), dictionaryFile) != NULL)
+    while(fgets(word, (LENGTH +2), dictionaryFile) != NULL)
     {
+        if((strlen(word)/sizeof(char)) > 46)
+        {
+            return false;
+        }
         //Iterate through each character of the word and build the TRIE branch for each word
         for(int i = 0; word[i] != '\n'; i++)
         {
@@ -148,7 +154,8 @@ bool load(const char* dictionary)
         wordcount = wordcount + 1;
         current_head = root;
     }//while loop end
-    
+    //free(word);
+    fclose(dictionaryFile);
     return true; 
 }
 
