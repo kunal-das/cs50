@@ -1,11 +1,25 @@
-0.  TODO
-1.  TODO
-2.  TODO
-3.  TODO
-4.  TODO
+0.  an artificial long word said to mean a lung disease caused by inhaling very fine ash and sand dust
+1.  getrusage returns the usage statistics of resource and stores the info in the struct rusage.
+2.  the number of members in struct usage are 16 members.
+3.  
+4.  Step1-For loop runs
+        Step1.a-fetches character from the text file.
+        Check 1 - check if the character is a word or a apostrophe and the index is greater than 0
+            True - append the character in the word buffer
+                Check 1.1 - check if index is more than 45
+                    True - Discard the word and set the index to 0
+        Check 1-a - Check if the character fetched is a number or not
+            True - Discard the word after fetching rest of the characters as it is an invalid word.
+        Check 1-b - Check if the index is greater than 0
+            True - The word so created is valid and is used as an argument when calling the check function.
 5.  TODO
 6.  TODO
-7.  TODO
-8.  TODO
-9.  TODO
-10. TODO
+7.  For this assignment I have implemented a TRIE structure by creating node which have one boolean component to set if the node is the ending of a word
+    and the other component is array of nodes i.e. structs of size 27 each to denote the letters of the english alphabet and the last child is to denote
+    an apostrophe.
+8.  Well to make the code work itself was a big task for me so I haven't kept a track of the timing improvements in my implementation of speller.
+9.  Well I have implemented speller using TRIE data structure as explained above and with the added logic that my code fetches whole words from the
+    dictionary and not characters to load them in memory in order to reduce the numner of IO operations to the dictionary file and to give a higher performance
+    to the code.
+10. Sowm of the bottlenecks that my code has is that it gives segmentation fault at the beginning but I was able to figure it out where I was going wrong 
+    and corrected and it has removed the segmentation fault that I used to face in the code.
