@@ -444,7 +444,28 @@ char* htmlspecialchars(const char* s)
  */
 char* indexes(const char* path)
 {
-    // TODO
+    //char *indexhtmlFile = "/index.html";
+    //char *indexphpFile = "/index.php";
+    char *returnValue = malloc(strlen(path)+strlen("/index.html")+1);
+    strcpy(returnValue, path);
+    strcat(returnValue, "/index.html");
+    if(access(returnValue, F_OK)==0)
+    {
+        return returnValue;
+        free(returnValue);
+    }
+    else
+    {
+        returnValue = malloc(strlen(path)+strlen("/index.php")+1);
+        strcpy(returnValue, path);
+        strcat(returnValue, "/index.php");
+        if(access(returnValue, F_OK)==0)
+        {
+            return returnValue;
+            free(returnValue);
+        }
+    }
+    free(returnValue);
     return NULL;
 }
 
@@ -609,8 +630,28 @@ void list(const char* path)
  */
 bool load(FILE* file, BYTE** content, size_t* length)
 {
-    // TODO
-    return false;
+    //checking if file passed as argument is non-Null.
+    if(file == NULL) 
+    {
+        error(500);
+        return false;
+    }
+   
+    //Moving the pointer of the file stream to the end.
+    fseek(file, 0L, SEEK_END);
+   
+    //retrieveing the length of the file.
+    *length = ftell(file);
+    //Setting the pointer of the file stream to the beginning of the file.
+    rewind(file);
+    //Allocating memory in the heap for the file to be read.
+    *content = (BYTE *)malloc((*length)*sizeof(long));
+    if(fread(*content, *length, 1, file) != 1)
+    {
+        return false;
+    }
+    *content[*length]='\0';
+    return true;
 }
 
 /**
@@ -618,8 +659,39 @@ bool load(FILE* file, BYTE** content, size_t* length)
  */
 const char* lookup(const char* path)
 {
-    // TODO
-    return NULL;
+    const char *fileTypeArray[] = {"css", "html", "gif", "ico", "jpg", "js", "php", "png"};
+    char* dot_Pointer = (char *)malloc(sizeof(char)*3);
+    dot_Pointer = strrchr(path, '.');
+    int i = 0;
+    for(;i<(sizeof(fileTypeArray)/sizeof(char)); i++)
+    {
+        //char *extension = fileTypeArray+i;
+        if(strcasecmp(dot_Pointer, fileTypeArray[i]) == 0)
+        {
+            break;
+        }
+    }
+    switch(i)
+    {
+        case 0:
+            return "text/css";
+        case 1:
+            return "text/html";
+        case 2:
+            return "text/gif";
+        case 3:
+            return "text/x-icon";
+        case 4:
+            return "text/jpeg";
+        case 5:
+            return "text/javascript";
+        case 6:
+            return "text/x-php";
+        case 7:
+            return "text/png";
+        default:
+            return NULL;
+    }
 }
 
 /**
@@ -629,9 +701,72 @@ const char* lookup(const char* path)
  */
 bool parse(const char* line, char* abs_path, char* query)
 {
-    // TODO
-    error(501);
-    return false;
+    char *methodPointer = strstr(line, "GET");
+    char *spacePointer1 = strchr(line, ' ');
+    char *spacePointer2 = strchr(spacePointer1+1, ' ');
+    char *httpVersionPointer = strstr(spacePointer2, "HTTP/1.1");
+    //check if method is GET and starts at the beginning of request-line
+    if(methodPointer != line||((spacePointer1-line)!=3))
+    {
+        error(405);
+        return false;
+    }
+    //check to see there no extra characters between method GET and SP.
+    else if(spacePointer1 == NULL)
+    {
+        error(400);
+        return false;
+    }
+    //check to see if the request target after first SP begins with '/' or not.
+    else if(*(spacePointer1+1) != '/')
+    {
+        error(501);
+        return false;
+    }
+    //check if HTTP version 1.1 is followed.
+    else if(httpVersionPointer == NULL)
+    {
+        error(505);
+        return false;
+    }
+    //check to see second SP is between target and HTTP version.
+    else if((spacePointer2+1)!=httpVersionPointer)
+    {
+        error(400);
+        return false;
+    }
+    //check to see if request-target contains '"' or not.
+    else if((strchr(line, '"'))!=NULL)
+    {
+        error(400);
+        return false;
+    }
+    
+    //allocating a buffer for storing the request-target.
+    char *request_target = malloc(sizeof(char)*(spacePointer2-spacePointer1));
+    
+    //copying the request-target from http request to destination buffer.
+    strncpy(request_target, (spacePointer1+1), (spacePointer2-spacePointer1-1));
+    
+    //appending null terminating character to the end of the request-target buffer.
+    request_target[spacePointer2-spacePointer1-1] = '\0';
+    printf("request-target : %s\n", request_target);
+    
+    //checing if the request-target contains query
+    char *query_Pointer = strchr(request_target, '?');
+    if((query_Pointer == NULL)||(query_Pointer+1 == spacePointer2))
+    {
+        abs_path = request_target;
+        *query = '\0';
+    }
+    else
+    {
+       strncpy(abs_path, request_target, (query_Pointer-request_target));
+       strcpy(query, (query_Pointer+1));
+    }
+    printf("abs path : %s\nquery : %s\n", abs_path, query);
+    return true;
+
 }
 
 /**
