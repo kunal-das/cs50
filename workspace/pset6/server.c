@@ -645,12 +645,14 @@ bool load(FILE* file, BYTE** content, size_t* length)
     //Setting the pointer of the file stream to the beginning of the file.
     rewind(file);
     //Allocating memory in the heap for the file to be read.
-    *content = (BYTE *)malloc((*length)*sizeof(long));
+    *content = (BYTE *)malloc((*length+1)*sizeof(long));
     if(fread(*content, *length, 1, file) != 1)
     {
         return false;
     }
-    *content[*length]='\0';
+    //char fileBuffer = **content;
+    //int len = *length;
+    //fileBuffer[len]='\0';
     return true;
 }
 
@@ -660,13 +662,13 @@ bool load(FILE* file, BYTE** content, size_t* length)
 const char* lookup(const char* path)
 {
     const char *fileTypeArray[] = {"css", "html", "gif", "ico", "jpg", "js", "php", "png"};
-    char* dot_Pointer = (char *)malloc(sizeof(char)*3);
+    char* dot_Pointer = (char *)malloc(sizeof(char)*4);
     dot_Pointer = strrchr(path, '.');
     int i = 0;
     for(;i<(sizeof(fileTypeArray)/sizeof(char)); i++)
     {
         //char *extension = fileTypeArray+i;
-        if(strcasecmp(dot_Pointer, fileTypeArray[i]) == 0)
+        if(strcasecmp((dot_Pointer+1), fileTypeArray[i]) == 0)
         {
             break;
         }
@@ -678,17 +680,17 @@ const char* lookup(const char* path)
         case 1:
             return "text/html";
         case 2:
-            return "text/gif";
+            return "image/gif";
         case 3:
-            return "text/x-icon";
+            return "image/x-icon";
         case 4:
-            return "text/jpeg";
+            return "image/jpeg";
         case 5:
             return "text/javascript";
         case 6:
             return "text/x-php";
         case 7:
-            return "text/png";
+            return "image/png";
         default:
             return NULL;
     }
@@ -756,7 +758,8 @@ bool parse(const char* line, char* abs_path, char* query)
     char *query_Pointer = strchr(request_target, '?');
     if((query_Pointer == NULL)||(query_Pointer+1 == spacePointer2))
     {
-        abs_path = request_target;
+        //abs_path = request_target;
+        strcpy(abs_path, request_target);
         *query = '\0';
     }
     else
