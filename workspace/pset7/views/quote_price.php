@@ -1,0 +1,1 @@
+<div class ="container"><p>A share of <?= $quote["name"]; ?>(<?= $quote["symbol"]; ?>) costs <?= htmlspecialchars('$'); ?><?= $quote["price"]; ?></p></div>
