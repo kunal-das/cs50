@@ -45,3 +45,13 @@
     /* surround with whitespace */
     margin: 20px;
 }
+
+#symbol
+{
+    text-align : left;
+}
+
+#stock-name
+{
+    text-align : center;
+}

@@ -20,8 +20,8 @@
         }
 
         $quote_lookup = lookup($_POST["quote_symbol"]);
-        //dump($quote_lookup);
-        render("quote_price.php", ["title"=>"Quote Price", "quote"=>$quote_lookup]);
+        dump($quote_lookup);
+        //render("quote_price.php", ["title"=>"Quote Price", "quote"=>$quote_lookup]);
     }
 
 ?>
