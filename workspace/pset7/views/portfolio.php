@@ -4,10 +4,10 @@
             <?php
                 print("<tr>");
                 print("<th>Symbol</th>");
-                print("<th id=\"stock-name\">Name</th>");
-                print("<th>Shares</th>");
-                print("<th>Price</th>");
-                print("<th>TOTAL</th>");
+                print("<th id=\"center-table-heads\">Name</th>");
+                print("<th id=\"center-table-heads\">Shares</th>");
+                print("<th id=\"center-table-heads\">Price</th>");
+                print("<th id=\"center-table-heads\">TOTAL</th>");
                 print("</tr>");
             ?>
         </thead> 
