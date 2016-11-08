@@ -37,7 +37,6 @@
         // Check if the insertion worked correctly, only 1 row should be added and 1 should be returned.
         if ($rows == 1)
         {
-            
             $rows = CS50::query("SELECT LAST_INSERT_ID() AS id");
             $ID = $rows[0]["id"];
             $_SESSION["id"] = $ID;
