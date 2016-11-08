@@ -13,5 +13,6 @@
            "time" => $row["time"]
            ];
     }
-    dump($user_history);
+    //dump($user_history);
+    render("history_view.php", ["title"=>"History","user_history"=>$user_history]);
 ?>
