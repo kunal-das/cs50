@@ -7,7 +7,7 @@
     //if user reached page via GET request(by clicking the link or by redirect method)
     if($_SERVER["REQUEST_METHOD"] == "GET")
     {
-        render("change_passoword_view.php", ["title" => "Change Password"]);
+        render("password_change_form.php", ["title" => "Change Password"]);
     }
     //if user reaches the page via POST request(by submitting form to the page)
     else if($_SERVER["REQUEST_METHOD"] == "POST")
@@ -34,5 +34,6 @@
         }
         
         CS50::query("UPDATE users SET hash = ? WHERE id = ?", password_hash($_POST["new_password"], DEFAULT_PASSWORD), $_SESSION["id"]);
+        render("password_change_success.php", ["title" => "Password Changed Successfully"]);
     }
 ?>
