@@ -10,6 +10,9 @@
             <input class="form-control" name="confirmation" placeholder="Re-type password" type="password"/>
         </div>
         <div class="form-group">
+            <input autofocus autocomplete="off" class="form-control" name="email" placeholder="E-mail" type="text"/>
+        </div>
+        <div class="form-group">
             <button class="btn btn-default" type="submit">
                 <span aria-hidden="true" class="glyphicon glyphicon-log-in"></span>
                 Register

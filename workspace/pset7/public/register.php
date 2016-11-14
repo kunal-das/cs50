@@ -26,13 +26,17 @@
         {
             apologize("You must retype your password");
         }
+        else if(empty($_POST["email"]))
+        {
+            apologize("Please enter a valid email address");
+        }
         else if($_POST["password"] != $_POST["confirmation"])
         {
             apologize("Password Mismatch !!...You must type the same password in both the password fields");
         }
 
         // query database for user
-        $rows = CS50::query("INSERT IGNORE INTO users (username, hash, cash) VALUES(?, ?, 10000.00)", $_POST["username"], password_hash($_POST["password"], PASSWORD_DEFAULT));
+        $rows = CS50::query("INSERT IGNORE INTO users (username, hash, cash, email) VALUES(?, ?, 10000.00, ?)", $_POST["username"], password_hash($_POST["password"], PASSWORD_DEFAULT), $_POST["email"]);
         
         // Check if the insertion worked correctly, only 1 row should be added and 1 should be returned.
         if ($rows == 1)
