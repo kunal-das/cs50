@@ -16,7 +16,7 @@
         {
             apologize("Please enter your current password");
         }
-        else if(empty($_POST["new_password"]))
+        if(empty($_POST["new_password"]))
         {
             apologize("Please enter the new password");
         }
@@ -33,7 +33,7 @@
             apologize("Mismatch !!...Please re-type the new password");
         }
         
-        CS50::query("UPDATE users SET hash = ? WHERE id = ?", password_hash($_POST["new_password"], DEFAULT_PASSWORD), $_SESSION["id"]);
+        CS50::query("UPDATE users SET hash = ? WHERE id = ?", password_hash($_POST["new_password"], PASSWORD_DEFAULT), $_SESSION["id"]);
         render("password_change_success.php", ["title" => "Password Changed Successfully"]);
     }
 ?>
