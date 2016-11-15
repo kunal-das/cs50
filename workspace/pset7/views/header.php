@@ -39,6 +39,7 @@
                         <li><a href="buy.php">Buy</a></li>
                         <li><a href="sell.php">Sell</a></li>
                         <li><a href="history.php">History</a></li>
+                        <li><a href="add_cash.php">Add Cash</a></li>
                         <li><a href="change_password.php">Change Password</a></li>
                         <li><a href="logout.php"><strong>Log Out</strong></a></li>
                     </ul>

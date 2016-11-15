@@ -1,7 +1,7 @@
             </div>
 
             <div id="bottom">
-                Brought to you by the KD.
+                Brought to you by KD.
             </div>
 
         </div>
