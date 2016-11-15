@@ -33,6 +33,7 @@
                 <div>
                     <a href="/"><img alt="C$50 Finance" src="/img/logo.png"/></a>
                 </div>
+                <?php $name = CS50::query("SELECT username FROM users WHERE id = ?", $_SESSION["id"])[0]["username"]; ?>
                 <?php if (!empty($_SESSION["id"])): ?>
                     <ul class="nav nav-pills">
                         <li><a href="quote.php">Quote</a></li>
@@ -41,7 +42,7 @@
                         <li><a href="history.php">History</a></li>
                         <li><a href="add_cash.php">Add Cash</a></li>
                         <li><a href="change_password.php">Change Password</a></li>
-                        <li><a href="logout.php"><strong>Log Out</strong></a></li>
+                        <li><a href="logout.php" style="font-size:10px"><strong style="font-size:14px">Log Out</strong>(<?=$name?>)</a></li>
                     </ul>
                 <?php endif ?>
             </div>
