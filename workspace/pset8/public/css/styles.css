@@ -41,7 +41,7 @@ html, body, #map-canvas, .container-fluid
 {
     /* override typeahead.js's transparent background */
     background-color: #ffffff !important;
-
+    
     /* text box's width */
     width: 300px;
 }

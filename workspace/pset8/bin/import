@@ -1,6 +1,44 @@
 #!/usr/bin/env php
 <?php
 
-    // TODO
+    $file_path;
+    //Check if file is specified while calling the script.
+    if(sizeof($argv)!= 2)
+    {
+        //Informing the proper usage of the script
+        print("USAGE : ./import <path to .txt file>\n");
+    }
+    else
+    {
+        //get the file path.
+        $file_path = __DIR__.$argv[1];
+        //print absolute path of the file.
+        echo ($file_path."\n");
+    }
+    
+    if(!file_exists($file_path) || !is_readable($file_path))
+    {
+        return FALSE;
+    }
+    else
+    {
+        if( ( $file_handler = fopen($file_path, "r") ) != FALSE)
+        {
+            $index = 0;
+            $rows[] = [];
+            while( ($row = fgetcsv($file_handler, 1000, "\t")) != FALSE)
+            {
+                $rows[$index] = $row;
+                $index = $index + 1;
+            }
+            print("<pre>".print_r($rows)."</pre>");
+        }
+        else
+        {
+            echo("Unable to open file.");
+            return FALSE;
+        }
+        fclose($file_handler);
+    }
 
 ?>
