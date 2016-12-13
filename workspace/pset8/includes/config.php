@@ -17,7 +17,7 @@
     require("helpers.php");
 
     // CS50 Library
-    require("../vendor/library50-php-5/CS50/CS50.php");
+    require(__DIR__."/../vendor/library50-php-5/CS50/CS50.php");
     CS50::init(__DIR__ . "/../config.json");
 
 ?>
