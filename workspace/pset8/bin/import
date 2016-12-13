@@ -16,27 +16,44 @@
         echo ($file_path."\n");
     }
     
+    //Check if file exists on the path and is readable
     if(!file_exists($file_path) || !is_readable($file_path))
     {
         return FALSE;
     }
     else
     {
+        
+        $rows[] = [];
+        
+        /*
+        *Below code is used to read in each line from the file mentioned in the command line
+        *argument, split each line on 'tab' and store the resultant array in a 2D array. This
+        *code emphasizes that all lines are first parsed and segregated into a array structure
+        *rather than parsing each line in the file and inserting it in the DB.
+        */
         if( ( $file_handler = fopen($file_path, "r") ) != FALSE)
         {
             $index = 0;
-            $rows[] = [];
+            //get each line from file and add to 2D array
             while( ($row = fgetcsv($file_handler, 1000, "\t")) != FALSE)
             {
                 $rows[$index] = $row;
                 $index = $index + 1;
             }
-            print("<pre>".print_r($rows)."</pre>");
+            //Pretty printing for debugging.
+            //print("<pre>".print_r($rows)."</pre>");
         }
         else
         {
             echo("Unable to open file.");
             return FALSE;
+        }
+        
+        //code to iterate over 2D array, get details of each line and insert in DB
+        foreach($rows as $key => $line)
+        {
+            
         }
         fclose($file_handler);
     }
