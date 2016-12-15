@@ -76,11 +76,6 @@
             {
                 echo("Array for the key ".$key." was not successfully inserted in the DB");
             }
-            else
-            {
-                echo("Row ".($key+1)." of the file are inserted in the DB");
-            }
-            
         }
         fclose($file_handler);
     }

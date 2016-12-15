@@ -91,5 +91,11 @@
 
         return $articles;
     }
+    
+    function dump()
+    {
+        $arguments = func_get_args();
+        print $arguments;
+    }
 
 ?>
