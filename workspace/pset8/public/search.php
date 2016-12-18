@@ -18,19 +18,17 @@
         //the code in else block splits $_GET["get"] on ',' and retrieves the place name/postal code
         else
         {
-            $get_request = $_GET["geo"];
-            $get_parameters = explode(",", $get_request);
-            print_r("<p>".print_r($get_parameters)."</p>");
+            $geo_request = $_GET["geo"];
+            $geo_parameters = explode(",", $geo_request);
             //NOTE : the variable $place_name can contain both the name of the place or the postal code.
-            $place_name = $get_parameters[0];
-            print("<p>{$place_name}</p>");
-            //$places = CS50::query("SELECT * FROM places WHERE MATCH(postal_code, place_name) AGAINST(?)", $place_name);
+            $place_name = $geo_parameters[0];
+            $places = CS50::query("SELECT * FROM places WHERE MATCH(place_name, postal_code) AGAINST(?)", $place_name);
         }
     }
     
 
     // output places as JSON (pretty-printed for debugging convenience)
-    //header("Content-type: application/json");
-    //print(json_encode($places, JSON_PRETTY_PRINT));
+    header("Content-type: application/json");
+    print(json_encode($places, JSON_PRETTY_PRINT));
 
 ?>
