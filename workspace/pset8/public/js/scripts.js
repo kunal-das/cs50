@@ -74,7 +74,7 @@ $(function() {
  */
 function addMarker(place)
 {
-    var latlng = {lat : place.latitude, lng : place.longitude};
+    var latlng = {lat : parseFloat(place.latitude), lng : parseFloat(place.longitude)};
     var marker = new google.maps.Marker({
         position : latlng,
         map : map,
