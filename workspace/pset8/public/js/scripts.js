@@ -80,6 +80,19 @@ function addMarker(place)
         map : map,
         title : place.place_name
     });
+    
+    //add 'click' event to marker to open info window
+    marker.addListener('click', function(){
+        var parameters = {
+            geo : place.place_name
+        };
+        $.getJSON("articles.php", parameters)
+        .done(function(content){
+            showInfo(marker, content);
+        });
+    });
+    
+    //Maintaining a list of markers on the map
     markers.push(marker);
 }
 
@@ -102,7 +115,7 @@ function configure()
     google.maps.event.addListener(map, "dragstart", function() {
         removeMarkers();
     });
-
+    
     // configure typeahead
     // https://github.com/twitter/typeahead.js/blob/master/doc/jquery_typeahead.md
     $("#q").typeahead({
@@ -110,7 +123,7 @@ function configure()
         highlight: true,
         minLength: 1
     },
-    {
+        {
         source: search,
         templates: {
             empty: "no places found yet",
