@@ -69,32 +69,6 @@ $(function() {
 
 });
 
-/**
- * Adds marker for place to map.
- */
-function addMarker(place)
-{
-    var latlng = {lat : parseFloat(place.latitude), lng : parseFloat(place.longitude)};
-    var marker = new google.maps.Marker({
-        position : latlng,
-        map : map,
-        title : place.place_name
-    });
-    
-    //add 'click' event to marker to open info window
-    marker.addListener('click', function(){
-        var parameters = {
-            geo : place.place_name
-        };
-        $.getJSON("articles.php", parameters)
-        .done(function(content){
-            showInfo(marker, content);
-        });
-    });
-    
-    //Maintaining a list of markers on the map
-    markers.push(marker);
-}
 
 /**
  * Configures application.
@@ -166,6 +140,85 @@ function configure()
 }
 
 /**
+ * Adds marker for place to map.
+ */
+function addMarker(place)
+{
+    var latlng = {lat : parseFloat(place.latitude), lng : parseFloat(place.longitude)};
+    var marker = new google.maps.Marker({
+        position : latlng,
+        map : map,
+        title : place.place_name
+    });
+    
+    //add 'click' event to marker to open info window
+    marker.addListener('click', function(){
+        var parameters = {
+            geo : place.place_name
+        };
+        $.getJSON("articles.php", parameters)
+        .done(function(content){
+            generate_news_articles(marker, content);
+        });
+    });
+    
+    //Maintaining a list of markers on the map
+    markers.push(marker);
+}
+
+/*
+* Lists the news articles of the place in the info-window
+*/
+function generate_news_articles(marker, news)
+{
+    var news_articles = "<ul>";
+    var news_len = news.length;
+    console.log("Length of news array is : "+news_len);
+    var object = null;
+    for(var i = 0; i < news_len; i++) 
+    {
+        object = news[i];
+        var title = object["title"];
+        var link = object["link"];
+        news_articles += "<li><a href="+link+">"+title+"</a></li>";
+    }
+    news_articles += "</ul>";
+    showInfo(marker, news_articles);
+}
+
+
+/**
+ * Shows info window at marker with content.
+ */
+function showInfo(marker, content)
+{
+    // start div
+    var div = "<div id='info'>";
+    if (typeof(content) === "undefined")
+    {
+        // http://www.ajaxload.info/
+        div += "<img alt='loading' src='img/ajax-loader.gif'/>";
+    }
+    else
+    {
+        div += content;
+    }
+
+    // end div
+    div += "</div>";
+
+    // set info window's content
+    info.setContent(div);
+
+    // open info window (if not already open)
+    info.open(map, marker);
+}
+
+
+
+
+
+/**
  * Hides info window.
  */
 function hideInfo()
@@ -207,32 +260,6 @@ function search(query, cb)
     });
 }
 
-/**
- * Shows info window at marker with content.
- */
-function showInfo(marker, content)
-{
-    // start div
-    var div = "<div id='info'>";
-    if (typeof(content) === "undefined")
-    {
-        // http://www.ajaxload.info/
-        div += "<img alt='loading' src='img/ajax-loader.gif'/>";
-    }
-    else
-    {
-        div += content;
-    }
-
-    // end div
-    div += "</div>";
-
-    // set info window's content
-    info.setContent(div);
-
-    // open info window (if not already open)
-    info.open(map, marker);
-}
 
 /**
  * Updates UI's markers.
